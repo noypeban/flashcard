@@ -11,15 +11,26 @@
   </div>
 
     <script>
-    var file = './kanken10.csv';
+    var file = 'https://noypeban.github.io/flashcard/kanken10.csv';
     
     var app = new Vue({
         el: '#app',
         data: {
-            message: 'Hello Vue!'
+            items: ['dataよみこみちゅう'],
+        },
+        computed: {
+            number() {
+                var x = Math.floor(Math.random() * this.items.length);
+                console.log(x);
+                return x
+            },
+            message() {
+                return this.items[this.number].split(',');
+            }
         },
         mounted: function () {
-            axios.get(file).then(response => (this.message = response))
+            axios.get(file)
+            .then(response => (this.items = response.data.split('\n')))
         }
     });
   </script>
