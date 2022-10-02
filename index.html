@@ -1,1 +1,27 @@
-test
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flash Card</title>
+  <script src="https://unpkg.com/vue@2"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    {{ message }}
+  </div>
+
+    <script>
+    var file = './kanken10.csv';
+    
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!'
+        },
+        mounted: function () {
+            axios.get(file).then(response => (this.message = response))
+        }
+    });
+  </script>
+</body>
+</html>
