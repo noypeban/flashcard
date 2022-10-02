@@ -1,38 +1,64 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Flash Card</title>
-  <script src="https://unpkg.com/vue@2"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 </head>
+
 <body>
   <div id="app">
-    {{ message }}
+    <v-app>
+      <v-app-bar app>
+        <v-toolbar-title>漢検１０級のフラッシュカード</v-toolbar-title>
+      </v-app-bar>
+
+      <v-main>
+        <v-container>
+
+          <v-carousel v-model="model">
+            <v-carousel-item v-for="(item, i) in items" :key="i">
+              <v-sheet height="100%" tile>
+                <v-row class="fill-height" align="center" justify="center">
+                  <div class="text-h2">
+                    {{ item.split(',')[0] }}
+                  </div>
+                </v-row>
+              </v-sheet>
+            </v-carousel-item>
+          </v-carousel>
+        </v-container>
+      </v-main>
+    </v-app>
   </div>
 
-    <script>
+  <script src="https://unpkg.com/vue@2"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script>
     var file = 'https://noypeban.github.io/flashcard/kanken10.csv';
-    
+
     var app = new Vue({
-        el: '#app',
-        data: {
-            items: ['dataよみこみちゅう'],
-        },
-        computed: {
-            number() {
-                var x = Math.floor(Math.random() * this.items.length);
-                console.log(x);
-                return x
-            },
-            message() {
-                return this.items[this.number].split(',');
-            }
-        },
-        mounted: function () {
-            axios.get(file)
-            .then(response => (this.items = response.data.split('\n')))
-        }
+      el: '#app',
+      vuetify: new Vuetify(),
+      data: {
+        items: ['dataよみこみちゅう'],
+        colors: [
+          'green',
+          'secondary',
+          'yellow darken-4',
+          'red lighten-2',
+          'orange darken-1',
+        ],
+      },
+      mounted: function () {
+        axios.get(file)
+          .then(response => (this.items = response.data.split('\n')))
+      }
     });
   </script>
 </body>
+
 </html>
